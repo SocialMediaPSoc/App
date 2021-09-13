@@ -77,13 +77,9 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
 
   displayUsersFoundScreen(){
     return FutureBuilder(
-      future: futureSearcResults,
+      future: futureSearchResults,
       builder: (context, dataSnapshot)
       {
-        if(dataSnapshot.hasData)
-        {
-          return circularProgress();
-        }
 
         List<UserResult> searchUserResult = [];
         dataSnapshot.data.documents.forEach((document)
@@ -93,7 +89,9 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
           searchUserResult.add(userResult);
         });
 
-        return ListView(children: searchUserResult);
+        if(dataSnapshot.hasData) {
+          return ListView(children: searchUserResult);
+        }
       },
     );
   }
