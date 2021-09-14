@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:buddiesgram/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class ProfilePage extends StatefulWidget {
   final String userProfileId;
@@ -38,9 +40,9 @@ class _ProfilePageState extends State<ProfilePage> {
         return Padding(
           padding: EdgeInsets.all(17.0),
           child: Column(
-            children: <widget>[
+            children: <Widget>[
               Row(
-                children: <widget>[
+                children: <Widget>[
                   CircleAvatar(
                     radius: 45.0,
                     backgroundColor: Colors.grey,
@@ -49,11 +51,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   Expanded(
                     flex: 1,
                     child: Column(
-                      children: <widget>[
+                      children: <Widget>[
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <widget>[
+                          children: <Widget>[
                             createColumns("posts",0),
                             createColumns("followers",0),
                             createColumns("following",0),
@@ -61,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <widget>[
+                          children: <Widget>[
                             creatButton(),
                           ],
                         ),
@@ -78,55 +80,55 @@ class _ProfilePageState extends State<ProfilePage> {
                   user.username, style: TextStyle(fontSize: 14.0, color: Colors.white),
                 ),
               ),
-               
-               Container(
+
+              Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(top: 5.0),
                 child: Text(
                   user.profileName, style: TextStyle(fontSize: 18.0, color: Colors.white),
                 ),
               ),
-               
-               Container(
+
+              Container(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(top: 3.0),
                 child: Text(
                   user.bio, style: TextStyle(fontSize: 18.0, color: Colors.white70),
                 ),
               ),
-               
+
             ],
           ),
-          
-          
-          );
+
+
+        );
 
       },
-      );
+    );
   }
 
 
   Column createColumns(String title, int count){
     return Column(
-     mainAxisSize: MainAxisSize.min,
-     mainAxisAlignment: MainAxisAlignment.center,
-     children: <widget>[
-       Text(
-         count.toString(),
-         style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          count.toString(),
+          style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
 
 
-       ),
+        ),
 
-       Container(
-         margin: EdgeInsets.only(top: 5.0),
-         child: Text(
-           title,
-           style: TextStyle(fontSize: 16.0, color: Colors.grey, fontWeight: FontWeight.w400),
-         ),
-       ),
-       
-     ],
+        Container(
+          margin: EdgeInsets.only(top: 5.0),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 16.0, color: Colors.grey, fontWeight: FontWeight.w400),
+          ),
+        ),
+
+      ],
 
 
     );
@@ -135,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
   creatButton(){
     bool ownProfile = currentOnlineUserId == widget.userProfileId;
     if(ownProfile){
-      return creatButtonTitleAndFunction(title: "Edit Profile", performFuntion:editUserProfile,);
+      return creatButtonTitleAndFunction(title: "Edit Profile", performFunction: editUserProfile,);
     }
   }
 
@@ -153,9 +155,9 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(6.0),
-            ),
+          ),
         ),
-        ),
+      ),
 
 
     );
@@ -174,16 +176,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: header(context, strTitle: "Profile", ),
-body: ListView(
-  children: <Widget> [
-    createProfileTopView(),
+      body: ListView(
+        children: <Widget> [
+          createProfileTopView(),
 
-  ],
-),
+        ],
+      ),
 
     );
   }
 }
 
-class widget {
-}
