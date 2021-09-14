@@ -18,7 +18,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMixin<SearchPage>
 {
   TextEditingController searchTextEditingController = TextEditingController();
-  Future<QuerySnapshot> futureSearcResults;
+  Future<QuerySnapshot> futureSearchResults;
 
   emptyTheTextFormField(){
     searchTextEditingController.clear();
@@ -27,7 +27,7 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
   controlSearching(String str){
     Future<QuerySnapshot> allUsers = usersReference.where("profileName" ,isGreaterThanOrEqualTo: str).getDocuments();
     setState(() {
-      futureSearcResults = allUsers;
+      futureSearchResults = allUsers;
     });
   }
 
@@ -96,6 +96,8 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
     );
   }
 
+
+
   bool get wantKeepAlive => true;
 
   @override
@@ -103,7 +105,7 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: searchPageHeader(),
-      body: futureSearcResults == null ? displayNoSearchResultScreen() : displayUsersFoundScreen(),
+      body: futureSearchResults == null ? displayNoSearchResultScreen() : displayUsersFoundScreen(),
     );
   }
 }
