@@ -1,5 +1,4 @@
-import 'dart:html';
-
+import 'package:buddiesgram/models/user.dart';
 import 'package:buddiesgram/pages/HomePage.dart';
 import 'package:buddiesgram/pages/ProfilePage.dart';
 import 'package:buddiesgram/widgets/ProgressWidget.dart';
@@ -7,8 +6,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 
-class EditProfilePage extends StatefulWidget {
+
+class EditProfilePage extends StatefulWidget
+{
   final String currentOnlineUserId;
+
   EditProfilePage({
     this.currentOnlineUserId
   });
@@ -19,7 +21,7 @@ class EditProfilePage extends StatefulWidget {
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> 
+class _EditProfilePageState extends State<EditProfilePage>
 {
   TextEditingController profileNameTextEditingController = TextEditingController();
   TextEditingController bioTextEditingController = TextEditingController();
@@ -94,16 +96,16 @@ class _EditProfilePageState extends State<EditProfilePage>
         backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
         title: Text("Edit Profile", style: TextStyle(color: Colors.white),),
-        actions: <widget>[
+        actions: <Widget>[
           IconButton(icon: Icon(Icons.done, color: Colors.white,size: 30.0 ,), onPressed: () => Navigator.pop(context),),
 
         ],
       ),
       body: loading ? circularProgress() : ListView(
-        children: <widget>[
+        children: <Widget>[
           Container(
             child: Column(
-              children: <widget>[
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 7.0),
                   child: CircleAvatar(
@@ -114,34 +116,34 @@ class _EditProfilePageState extends State<EditProfilePage>
 
                 Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Column(children: <widget>[creatProfileNameTextFormField(), creatBioTextFormField()],), 
+                  child: Column(children: <Widget>[creatProfileNameTextFormField(), creatBioTextFormField()],),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 29.0, left: 50.0, right: 50.0),
+                  child: RaisedButton(
+                    onPressed: updateUserData,
+                    child: Text(
+                      "         Update        ",
+                      style: TextStyle(color: Colors.black, fontSize: 16.0),
+                    ),
+
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 29.0, left: 50.0, right: 50.0),
-                    child: RaisedButton(
-                      onLongPress: updateUserData,
-                      child: Text(
-                        "         Update        ",
-                        style: TextStyle(color: Colors.black, fontSize: 16.0),
-                      ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 50.0),
+                  child: RaisedButton(
+                    color: Colors.red,
+                    onPressed: logoutUser,
+                    child: Text(
+                      "         Logout         ",
+                      style: TextStyle(color: Colors.white, fontSize: 14.0),
+
 
                     ),
+
                   ),
-
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 50.0),
-                    child: RaisedButton(
-                      color: Colors.red,
-                      onLongPress: logoutUser,
-                      child: Text(
-                        "         Logout         ",
-                        style: TextStyle(color: Colors.white, fontSize: 14.0),
-
-
-                      ),
-
-                    ),
-                  ),
+                ),
 
               ],
             ),
@@ -158,68 +160,65 @@ class _EditProfilePageState extends State<EditProfilePage>
   }
 
 
-Column creatProfileNameTextFormField(){
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <widget>[
-      Padding(
-        padding: EdgeInsets.only(top: 13.0),
-        child: Text(
-          "Profile Name", style: TextStyle(color: Colors.grey),
-        ),
-      ),
-      TextField(
-        style: TextStyle(color: Colors.white),
-
-        controller: profileNameTextEditingController,
-        decoration: InputDecoration(
-          hintText: "Wirte profile name here...",
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-
+  Column creatProfileNameTextFormField(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 13.0),
+          child: Text(
+            "Profile Name", style: TextStyle(color: Colors.grey),
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          hintStyle: TextStyle(color: Colors.grey),
-          errorText: _profileNameValid ? null : "Profile name is very short"
         ),
-      ),
-    ],
-  );
-}
+        TextField(
+          style: TextStyle(color: Colors.white),
 
-Column creatBioTextFormField(){
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <widget>[
-      Padding(
-        padding: EdgeInsets.only(top: 13.0),
-        child: Text(
-          "Bio", style: TextStyle(color: Colors.grey),
-        ),
-      ),
-      TextField(
-        style: TextStyle(color: Colors.white),
+          controller: profileNameTextEditingController,
+          decoration: InputDecoration(
+              hintText: "Wirte profile name here...",
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
 
-        controller: bioTextEditingController,
-        decoration: InputDecoration(
-          hintText: "Wirte bio here...",
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              hintStyle: TextStyle(color: Colors.grey),
+              errorText: _profileNameValid ? null : "Profile name is very short"
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          hintStyle: TextStyle(color: Colors.grey),
-          errorText: _bioValid ? null : "bio is very long"
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
+  Column creatBioTextFormField(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 13.0),
+          child: Text(
+            "Bio", style: TextStyle(color: Colors.grey),
+          ),
+        ),
+        TextField(
+          style: TextStyle(color: Colors.white),
 
+          controller: bioTextEditingController,
+          decoration: InputDecoration(
+              hintText: "Wirte bio here...",
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
 
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              hintStyle: TextStyle(color: Colors.grey),
+              errorText: _bioValid ? null : "bio is very long"
+          ),
+        ),
+      ],
+    );
+  }
 }
