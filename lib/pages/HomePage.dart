@@ -6,6 +6,7 @@ import 'package:buddiesgram/pages/SearchPage.dart';
 import 'package:buddiesgram/pages/TimeLinePage.dart';
 import 'package:buddiesgram/pages/UploadPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,6 +14,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();
 final usersReference = Firestore.instance.collection("user");
+final StorageReference storageReference = FirebaseStorage.instance.ref().child("Posts Pictures");
+final postReference = Firestore.instance.collection("posts");
+
 
 final DateTime timestamp = DateTime.now();
 User currentUser;
@@ -114,12 +118,12 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          //TimeLinePage(),
-       RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign Out")),
-        SearchPage(),
-          UploadPage(),
+          TimeLinePage(),
+          //RaisedButton.icon(onPressed: logoutUser, icon: Icon(Icons.close), label: Text("Sign Out")),
+          SearchPage(),
+          UploadPage(gCurrentUser: currentUser,),
           NotificationsPage(),
-          ProfilePage(),
+          ProfilePage(userProfileId: currentUser.id,),
         ],
         controller: pageController,
         onPageChanged: whenPageChanges,
